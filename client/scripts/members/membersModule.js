@@ -37,5 +37,6 @@ function MembersCtrl(members){
 	});
 }
 
-module.exports = angular.module('MembersModule', [])
-						.controller('MembersCtrl', MembersCtrl);
+module.exports = angular
+					.module('MembersModule', [])
+					.controller('MembersCtrl', MembersCtrl);
