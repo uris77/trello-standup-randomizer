@@ -3,11 +3,11 @@
 var angular = require('angular');
 
 function tokenHolder() {
-	var token;
-	return {
-		token:  token
-	};
+    var token;
+    return {
+        token:  token
+    };
 }
 
 module.exports = angular.module('TokenHolderModule', [])
-						.factory('TokenHolder', tokenHolder);
+                        .factory('TokenHolder', tokenHolder);
