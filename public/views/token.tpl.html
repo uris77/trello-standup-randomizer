@@ -1,0 +1,9 @@
+<div class="well well-lg">
+	<h2>Your Trello Token</h2>
+	<form role="form" ng-submit="tokenCtrl.saveToken()">
+		<div class="form-group">
+		<input type="text" class="form-control input-lg" placeholder="Enter Trello Token" ng-model="tokenCtrl.token" required />
+		</div>
+		<button type="submit" class="btn btn-lg btn-primary">Save Token</button>
+	</form>
+</div>
