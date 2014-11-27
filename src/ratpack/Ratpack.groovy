@@ -46,6 +46,7 @@ ratpack {
                 if(currentUser.email) {
                     BasicDBObject queryDoc = new BasicDBObject("email", currentUser.email)
                     BasicDBObject userDoc = mongoDBClient.getCollection("trello_members").findOne(queryDoc)
+                    println "found user: ${userDoc}"
                     def userToken = userDoc.get("token")
                     if(userToken) currentUser.token = userToken
                     render Jackson.json([user: [email: currentUser.email, token: currentUser.token]])
