@@ -36,15 +36,15 @@ gulp.task('dev', ['views', 'styles', 'lint', 'browserify', 'watch'], function() 
 
 // JSLint task
 gulp.task('lint', function() {
-  gulp.src('assets/scripts/*.js')
+  gulp.src('scripts/*.js')
   .pipe(jshint())
   .pipe(jshint.reporter('default'));
 });
 
 // Styles task
 gulp.task('styles', function() {
-  gulp.src('assets/styles/*.css')
-  .pipe(gulp.dest('./src/ratpack/public/css/'));
+  gulp.src('styles/*.css')
+  .pipe(gulp.dest('../src/ratpack/public/css/'));
 });
 
 // Browserify task
@@ -54,19 +54,19 @@ gulp.task('browserify', function() {
   //   debug: true
   // }).bundle();
 
-  var bundleStream = browserify({entries: './assets/scripts/main.js', debug: true, fullPaths: true})
+  var bundleStream = browserify({entries: './scripts/main.js', debug: true, fullPaths: true})
                       .transform(ngAnnotate)
                       .bundle();
   bundleStream
     .pipe(source('app.js'))
     .pipe(streamify(uglify()))
-    .pipe(gulp.dest("./src/ratpack/public/js"));
+    .pipe(gulp.dest("../src/ratpack/public/js"));
     //.pipe(source('core.js'));
   //return bundleStream.pipe(gulp.dest('./public/js'));
 });
 
 gulp.task("minify", function() {
-  gulp.src('./src/ratpack/public/js/core.js')
+  gulp.src('../src/ratpack/public/js/core.js')
     .pipe(uglify())
     .pipe(gulp.dest('./public/js'));
 });
@@ -74,31 +74,31 @@ gulp.task("minify", function() {
 // Views task
 gulp.task('views', function() {
   // Get our index.html
-  gulp.src('assets/index.html')
+  gulp.src('index.html')
   // And put it in the public folder
-  .pipe(gulp.dest('./src/ratpack/templates/'));
+  .pipe(gulp.dest('../src/ratpack/templates/'));
 
-  // Any other view files from assets/views
-  gulp.src('assets/views/**/*')
+  // Any other view files from views
+  gulp.src('views/**/*')
   // Will be put in the public/views folder
-  .pipe(gulp.dest('./src/ratpack/public/views/'));
+  .pipe(gulp.dest('../src/ratpack/public/views/'));
 });
 
 gulp.task('watch', ['lint'], function() {
 
   // Watch our scripts, and when they change run lint and browserify
-  gulp.watch(['assets/scripts/*.js', 'assets/scripts/**/*.js'],[
+  gulp.watch(['scripts/*.js', 'scripts/**/*.js'],[
     'lint',
     'browserify'
   ]);
 
   // Watch our css files
-  gulp.watch(['assets/styles/**/*.css'], [
+  gulp.watch(['styles/**/*.css'], [
     'styles'
   ]);
 
   // Watch view files
-  gulp.watch(['assets/**/*.html'], [
+  gulp.watch(['**/*.html'], [
     'views'
   ]);
 
