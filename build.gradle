@@ -71,5 +71,5 @@ run {
 }
 
 task stage {
-   dependsOn insstallApp
+   dependsOn installApp
 }
