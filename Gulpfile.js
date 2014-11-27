@@ -36,14 +36,14 @@ gulp.task('dev', ['views', 'styles', 'lint', 'browserify', 'watch'], function() 
 
 // JSLint task
 gulp.task('lint', function() {
-  gulp.src('client/scripts/*.js')
+  gulp.src('assets/scripts/*.js')
   .pipe(jshint())
   .pipe(jshint.reporter('default'));
 });
 
 // Styles task
 gulp.task('styles', function() {
-  gulp.src('client/styles/*.css')
+  gulp.src('assets/styles/*.css')
   .pipe(gulp.dest('./ratpack/src/ratpack/public/css/'));
 });
 
@@ -54,7 +54,7 @@ gulp.task('browserify', function() {
   //   debug: true
   // }).bundle();
 
-  var bundleStream = browserify({entries: './client/scripts/main.js', debug: true, fullPaths: true})
+  var bundleStream = browserify({entries: './assets/scripts/main.js', debug: true, fullPaths: true})
                       .transform(ngAnnotate)
                       .bundle();
   bundleStream
@@ -74,12 +74,12 @@ gulp.task("minify", function() {
 // Views task
 gulp.task('views', function() {
   // Get our index.html
-  gulp.src('client/index.html')
+  gulp.src('assets/index.html')
   // And put it in the public folder
   .pipe(gulp.dest('./ratpack/src/ratpack/templates/'));
 
-  // Any other view files from client/views
-  gulp.src('client/views/**/*')
+  // Any other view files from assets/views
+  gulp.src('assets/views/**/*')
   // Will be put in the public/views folder
   .pipe(gulp.dest('./ratpack/src/ratpack/public/views/'));
 });
@@ -87,18 +87,18 @@ gulp.task('views', function() {
 gulp.task('watch', ['lint'], function() {
 
   // Watch our scripts, and when they change run lint and browserify
-  gulp.watch(['client/scripts/*.js', 'client/scripts/**/*.js'],[
+  gulp.watch(['assets/scripts/*.js', 'assets/scripts/**/*.js'],[
     'lint',
     'browserify'
   ]);
 
   // Watch our css files
-  gulp.watch(['client/styles/**/*.css'], [
+  gulp.watch(['assets/styles/**/*.css'], [
     'styles'
   ]);
 
   // Watch view files
-  gulp.watch(['client/**/*.html'], [
+  gulp.watch(['assets/**/*.html'], [
     'views'
   ]);
 

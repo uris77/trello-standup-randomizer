@@ -1,0 +1,12 @@
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<th>Name</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="board in boardsCtrl.boards">
+				<td><a ui-sref="members({boardId: board.id})">{{ board.name }}</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
