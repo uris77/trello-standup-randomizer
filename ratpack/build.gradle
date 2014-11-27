@@ -1,0 +1,71 @@
+plugins {
+    id "io.ratpack.ratpack-groovy" version "0.9.10"
+    id "org.gradle.idea"
+    id "org.gradle.eclipse"
+}
+
+repositories {
+    jcenter()
+    maven { url "https://oss.jfrog.org/repo" }
+    maven { url "https://nexus.codehaus.org/content/repositories/snapshots/" }
+    maven { url "https://repo1.maven.org/maven2/org/jodd" }
+}
+
+dependencies {
+    //springloaded "org.springsource.loaded:springloaded:1.1.5.RELEASE"
+
+    compile ratpack.dependency("jackson")
+    compile ratpack.dependency("pac4j")
+
+    compile "org.pac4j:pac4j-openid:1.5.1"
+    compile "org.pac4j:pac4j-oauth:1.5.1"
+    compile 'org.mongodb:mongo-java-driver:2.12.3'
+    compile 'org.jodd:jodd-http:3.6.2'
+
+    runtime 'org.apache.logging.log4j:log4j-slf4j-impl:2.0.1'
+    runtime 'org.apache.logging.log4j:log4j-api:2.0.1'
+    runtime 'org.apache.logging.log4j:log4j-core:2.0.1'
+    runtime 'com.lmax:disruptor:3.3.0'
+
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0", {
+        exclude module: "groovy-all"
+    }
+    testCompile "org.gebish:geb-spock:0.9.3"
+    // Required for mocking multi arg constructor e.g. BookService
+    testRuntime "org.objenesis:objenesis:1.2"
+    testCompile ratpack.dependency("remote-test")
+}
+
+// The Groovy that rest-assured drags in via ratpack-groovy-test is toxic, prevent it from coming in
+// This should be fixed upstream in Ratpack
+configurations.testCompile.dependencies.find { it.name == "ratpack-groovy-test" }.exclude(group: "org.codehaus.groovy")
+
+idea {
+    project {
+        jdkName "1.8"
+        languageLevel "1.8"
+        ipr {
+            withXml { provider ->
+                def node = provider.asNode()
+                //configure git support for the project in idea
+                node.component.find { it.'@name' == 'VcsDirectoryMappings' }?.mapping[0].'@vcs' = 'Git'
+            }
+        }
+    }
+}
+
+run {
+    Properties properties = new Properties(System.getProperties())
+    try {
+        FileInputStream inputStream = new FileInputStream(System.getProperty("user.home").toString() + "/.trello-standup/.env")
+        properties.load(inputStream)
+        System.setProperties(properties)
+        System.getProperties().each { prop ->
+            systemProperty prop.key, prop.value
+        }
+    }catch (FileNotFoundException ex) {
+        println "Could not find env file"
+    } catch (Exception e) {
+        e.printStackTrace()
+    }
+}

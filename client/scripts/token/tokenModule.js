@@ -3,12 +3,15 @@
 var angular = require('angular'); 
 var _ = require('underscore');
 require('./tokenHolder');
+require('../trelloBoardsService');
 
-function TokenCtrl($state,  TokenHolder) {
+function TokenCtrl($state,  TokenHolder, TrelloBoards) {
     var ctrl = this;
     function saveToken() {
-        TokenHolder.token = ctrl.token;
-        $state.go('boards');
+        TrelloBoards.saveToken({token: ctrl.token})
+            .then(function(user) {
+                if(user.token) $state.go('boards');
+            });
     }
 
     return _.extend(ctrl, {
@@ -17,5 +20,5 @@ function TokenCtrl($state,  TokenHolder) {
     });
 }
 
-module.exports = angular.module('TrelloToken', ['TokenHolderModule'])
+module.exports = angular.module('TrelloToken', ['TokenHolderModule', 'TrelloBoardsService'])
     .controller('TokenCtrl', TokenCtrl);

@@ -4,8 +4,10 @@ var angular = require('angular');
 
 function tokenHolder() {
     var token;
+    var key;
     return {
-        token:  token
+        token:  token,
+        key: key
     };
 }
 
