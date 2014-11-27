@@ -44,7 +44,7 @@ gulp.task('lint', function() {
 // Styles task
 gulp.task('styles', function() {
   gulp.src('assets/styles/*.css')
-  .pipe(gulp.dest('./ratpack/src/ratpack/public/css/'));
+  .pipe(gulp.dest('./src/ratpack/public/css/'));
 });
 
 // Browserify task
@@ -60,13 +60,13 @@ gulp.task('browserify', function() {
   bundleStream
     .pipe(source('app.js'))
     .pipe(streamify(uglify()))
-    .pipe(gulp.dest("./ratpack/src/ratpack/public/js"));
+    .pipe(gulp.dest("./src/ratpack/public/js"));
     //.pipe(source('core.js'));
   //return bundleStream.pipe(gulp.dest('./public/js'));
 });
 
 gulp.task("minify", function() {
-  gulp.src('./ratpack/src/ratpack/public/js/core.js')
+  gulp.src('./src/ratpack/public/js/core.js')
     .pipe(uglify())
     .pipe(gulp.dest('./public/js'));
 });
@@ -76,12 +76,12 @@ gulp.task('views', function() {
   // Get our index.html
   gulp.src('assets/index.html')
   // And put it in the public folder
-  .pipe(gulp.dest('./ratpack/src/ratpack/templates/'));
+  .pipe(gulp.dest('./src/ratpack/templates/'));
 
   // Any other view files from assets/views
   gulp.src('assets/views/**/*')
   // Will be put in the public/views folder
-  .pipe(gulp.dest('./ratpack/src/ratpack/public/views/'));
+  .pipe(gulp.dest('./src/ratpack/public/views/'));
 });
 
 gulp.task('watch', ['lint'], function() {
