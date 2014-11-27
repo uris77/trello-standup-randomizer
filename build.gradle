@@ -1,7 +1,6 @@
 plugins {
     id "io.ratpack.ratpack-groovy" version "0.9.10"
     id "org.gradle.idea"
-    id "org.gradle.eclipse"
 }
 
 repositories {
