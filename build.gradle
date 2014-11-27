@@ -69,3 +69,7 @@ run {
         e.printStackTrace()
     }
 }
+
+stage {
+   dependsOn insstallApp
+}
