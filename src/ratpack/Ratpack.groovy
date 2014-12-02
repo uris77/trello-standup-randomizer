@@ -7,6 +7,8 @@ import org.standup.auth.AuthPathAuthorizer
 import org.standup.auth.CurrentUser
 import org.standup.datastore.MongoDBClient
 import org.standup.datastore.MongoDBModule
+import org.standup.errors.ErrorHandler
+import ratpack.error.ServerErrorHandler
 import ratpack.groovy.templating.TemplatingModule
 import ratpack.jackson.Jackson
 import ratpack.jackson.JacksonModule
@@ -27,6 +29,8 @@ ratpack {
         Google2Client google2Client = new Google2Client(System.getProperty("GOOGLE_ID"), System.getProperty("GOOGLE_SECRET"))
         add new Pac4jModule<>(google2Client, new AuthPathAuthorizer())
         add new MongoDBModule()
+
+        bind ServerErrorHandler, ErrorHandler
     }
 
     handlers {
