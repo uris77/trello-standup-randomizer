@@ -13,6 +13,7 @@ import ratpack.groovy.templating.TemplatingModule
 import ratpack.jackson.Jackson
 import ratpack.jackson.JacksonModule
 import ratpack.pac4j.Pac4jModule
+import ratpack.registry.NotInRegistryException
 import ratpack.session.SessionModule
 import ratpack.session.store.MapSessionsModule
 import ratpack.session.store.SessionStorage
@@ -35,10 +36,14 @@ ratpack {
 
     handlers {
         handler{SessionStorage  sessionStorage ->
-            CurrentUser currentUser = new CurrentUser()
-            currentUser.setSessionStorage(sessionStorage)
-            request.add(currentUser)
-            next()
+            try{
+                CurrentUser currentUser = new CurrentUser()
+                currentUser.setSessionStorage(sessionStorage)
+                request.add(currentUser)
+            } catch(NotInRegistryException ex){}
+            finally {
+                next()
+            }
         }
 
         prefix("trello") {
@@ -50,13 +55,14 @@ ratpack {
                 if(currentUser.email) {
                     BasicDBObject queryDoc = new BasicDBObject("email", currentUser.email)
                     BasicDBObject userDoc = mongoDBClient.getCollection("trello_members").findOne(queryDoc)
-                    println "found user: ${userDoc}"
                     def userToken = userDoc.get("token")
                     if(userToken) currentUser.token = userToken
                     render Jackson.json([user: [email: currentUser.email, token: currentUser.token]])
+                } else {
+                    response.status(401)
+                    render Jackson.json([])
                 }
-                response.status(401)
-                render Jackson.json([])
+
             }
         }
 
