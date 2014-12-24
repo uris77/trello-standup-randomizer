@@ -1,5 +1,6 @@
 <div class="well well-lg">
-	<button class="btn btn-success" ng-click="membersCtrl.shuffle()">Shuffle</button>
+	<button class="btn btn-success" ng-click="membersCtrl.shuffle()" ng-if="!membersCtrl.shuffling">Shuffle</button>
+	<button class="btn btn-info" ng-click="membersCtrl.stopShuffling()" ng-if="membersCtrl.shuffling">Stop</button>
 	<div ng-repeat="member in membersCtrl.members">
 		<div class="row">
 			<div class="col-xs-2">

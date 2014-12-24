@@ -8,7 +8,6 @@ function UsersRepository($q, $http) {
 
 		deferred.promise = $http.get('/trello/user')
 								.then(function(response){
-									console.log('response: ', response);
 									return response.data.user;
 								}, function(response){
 									console.log('failed: ', response);
