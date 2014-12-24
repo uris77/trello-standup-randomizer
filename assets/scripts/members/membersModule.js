@@ -7,20 +7,7 @@ function MembersCtrl(members){
     var ctrl = this;
 
     function shuffle() {
-        var currentIndex = ctrl.members.length, temporaryValue, randomIndex ;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = ctrl.members[currentIndex];
-            ctrl.members[currentIndex] = ctrl.members[randomIndex];
-            ctrl.members[randomIndex] = temporaryValue;
-        }
+        ctrl.members = _.shuffle(ctrl.members);
     }
 
     return _.extend(ctrl,{
