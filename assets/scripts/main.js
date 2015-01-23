@@ -79,3 +79,4 @@ angular.module('TrelloStandUpRandomizer',
                 }
             });
     });
+
